@@ -10,6 +10,7 @@ const gcd = (a: number, b: number): number => {
 
   return a;
 };
+
 const placesToInteger = (n: number, epsilon = 1e-10): number => {
   let k = 0;
   let x = n;
@@ -21,10 +22,12 @@ const placesToInteger = (n: number, epsilon = 1e-10): number => {
 
   return k;
 };
+
 const integerScale = (...nums: number[]): number => {
   const k = Math.max(...nums.map(n => placesToInteger(n)));
   return 10 ** k;
 };
+
 export const simplifyRatio = (a: number, b: number): [number, number] => {
   const mult = integerScale(a, b);
   const aInt = Math.round(a * mult);

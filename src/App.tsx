@@ -25,7 +25,8 @@ export const App: FC = () => {
   } = state;
 
   return (
-    <Stack gap={4} p={4} sx={(theme) => ({
+    <Stack spacing={4} sx={(theme) => ({
+      p: 4,
       [`& .${inputBaseClasses.readOnly}`]: {
         backgroundColor: alpha(theme.palette.primary.main, 0.1),
         cursor: 'default',
@@ -35,7 +36,15 @@ export const App: FC = () => {
 
       <Box component="fieldset" sx={{ border: 'none', p: 0, pt: 2 }}>
         <Typography component="legend">Source</Typography>
-        <Stack direction="row" gap={1} alignItems="center" width="30ch">
+
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            alignItems: 'center',
+            width: '30ch',
+          }}
+        >
           <TextField
             label="A"
             value={srcA}
@@ -54,7 +63,15 @@ export const App: FC = () => {
 
       <Box component="fieldset" sx={{ border: 'none', p: 0, pt: 2 }}>
         <Typography component="legend">Simplified</Typography>
-        <Stack direction="row" gap={1} alignItems="center" width="30ch">
+
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            alignItems: 'center',
+            width: '30ch',
+          }}
+        >
           <TextField
             label="A"
             value={display(simpleA)}
@@ -73,7 +90,15 @@ export const App: FC = () => {
 
       <Box component="fieldset" sx={{ border: 'none', p: 0, pt: 2 }}>
         <Typography component="legend">Simplified (fractional)</Typography>
-        <Stack direction="row" gap={1} alignItems="center" width="30ch">
+
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            alignItems: 'center',
+            width: '30ch',
+          }}
+        >
           <TextField
             label="A"
             value={display(fracA)}
@@ -92,7 +117,15 @@ export const App: FC = () => {
 
       <Box component="fieldset" sx={{ border: 'none', p: 0, pt: 2 }}>
         <Typography component="legend">Find B from A</Typography>
-        <Stack direction="row" gap={1} alignItems="center" width="30ch">
+
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            alignItems: 'center',
+            width: '30ch',
+          }}
+        >
           <TextField
             label="A (input)"
             value={fixedA}
@@ -111,7 +144,15 @@ export const App: FC = () => {
 
       <Box component="fieldset" sx={{ border: 'none', p: 0, pt: 2 }}>
         <Typography component="legend">Find A from B</Typography>
-        <Stack direction="row" gap={1} alignItems="center" width="30ch">
+
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            alignItems: 'center',
+            width: '30ch',
+          }}
+        >
           <TextField
             label="A (output)"
             value={display(calculatedA)}

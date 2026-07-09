@@ -1,8 +1,8 @@
+import Box from '@mui/material/Box';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
-import Box, { type BoxProps } from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import TextField, { type TextFieldProps } from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState, type FC } from 'react';
 
@@ -207,7 +207,7 @@ export const App: FC = () => {
     isFinite(srcBNumber) &&
     srcBNumber > 0
   );
-  
+
   return (
     <Stack gap={4} p={4}>
       <Stack direction="row" gap={1} alignItems="center" width="30ch">

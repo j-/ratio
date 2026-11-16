@@ -1,4 +1,4 @@
-const gcd = (a: number, b: number): number => {
+export const gcd = (a: number, b: number): number => {
   a = Math.abs(a);
   b = Math.abs(b);
 

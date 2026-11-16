@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useReducer, type Reducer } from 'react';
 import {
+    gcd,
   getAFromBWithRatio,
   getBFromAWithRatio,
   simplifyRatio,
@@ -13,6 +14,7 @@ export type ReducerState = {
   numB: number | null;
   ratio: Ratio | null;
   locked: boolean;
+  gcd: number | null;
 }
 
 export const initialState: ReducerState = {
@@ -22,6 +24,7 @@ export const initialState: ReducerState = {
   numB: screen.height,
   ratio: simplifyRatio(screen.width, screen.height),
   locked: false,
+  gcd: gcd(screen.width, screen.height),
 };
 
 export type ReducerAction =
@@ -75,6 +78,7 @@ export const reducer: Reducer<ReducerState, ReducerAction> = (state, action) => 
             inputB,
             numA,
             numB,
+            gcd: gcd(numA, numB),
           }
         } else {
           return {
@@ -83,6 +87,7 @@ export const reducer: Reducer<ReducerState, ReducerAction> = (state, action) => 
             inputB: '',
             numA,
             numB: null,
+            gcd: null,
           }
         }
       } else {
@@ -96,6 +101,7 @@ export const reducer: Reducer<ReducerState, ReducerAction> = (state, action) => 
           inputA,
           numA,
           ratio,
+          gcd: numA == null || numB == null ? null : gcd(numA, numB),
         };
       }
     }
@@ -119,6 +125,7 @@ export const reducer: Reducer<ReducerState, ReducerAction> = (state, action) => 
             inputB,
             numA,
             numB,
+            gcd: gcd(numA, numB),
           }
         } else {
           return {
@@ -127,6 +134,7 @@ export const reducer: Reducer<ReducerState, ReducerAction> = (state, action) => 
             inputB,
             numA: null,
             numB,
+            gcd: null,
           }
         }
       } else {
@@ -140,6 +148,7 @@ export const reducer: Reducer<ReducerState, ReducerAction> = (state, action) => 
           inputB,
           numB,
           ratio,
+          gcd: numA == null || numB == null ? null : gcd(numA, numB),
         };
       }
     }
@@ -156,6 +165,7 @@ export const useController = () => {
     numB,
     ratio,
     locked,
+    gcd,
   }, dispatch] = useReducer(reducer, initialState);
 
   const setInputA = useCallback((value: string) => {
@@ -186,6 +196,7 @@ export const useController = () => {
     numB,
     ratio,
     locked,
+    gcd,
     setInputA,
     setInputB,
     setLocked,
@@ -196,6 +207,7 @@ export const useController = () => {
     numB,
     ratio,
     locked,
+    gcd,
     setInputA,
     setInputB,
     setLocked,

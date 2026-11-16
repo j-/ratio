@@ -28,6 +28,7 @@ export const App: FC = () => {
     setInputB,
     setLocked,
     ratio,
+    gcd,
   } = useController();
 
   return (
@@ -102,6 +103,9 @@ export const App: FC = () => {
           <li>
             <RatioDisplay ratio={getProportionWithRatio(ratio)} formatter={percentage} />
           </li>
+          {gcd == null ? null : (
+            <li>GCD = {gcd}</li>
+          )}
         </ul>
       ) : null}
     </Stack>

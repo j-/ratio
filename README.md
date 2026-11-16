@@ -25,7 +25,7 @@ To do
 - [ ] Clipboard copy buttons.
 - [ ] Clipboard paste handler.
 - [ ] Handle `/`, `:` key press.
-- [ ] Swap A and B.
+- [x] Swap A and B.
 - [ ] Load from image.
 - [ ] Configure output precision.
 - [x] Show GCD.

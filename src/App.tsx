@@ -14,6 +14,8 @@ import {
   getBFromAWithRatio,
   getProportionWithRatio,
 } from './utils';
+import { IconButton } from '@mui/material';
+import CachedIcon from '@mui/icons-material/Cached';
 
 const percentage = new Intl.NumberFormat(undefined, {
   style: 'percent',
@@ -27,6 +29,7 @@ export const App: FC = () => {
     setInputA,
     setInputB,
     setLocked,
+    swapInputs,
     ratio,
     gcd,
   } = useController();
@@ -87,6 +90,10 @@ export const App: FC = () => {
           checkedIcon={<Lock />}
           disabled={ratio == null}
         />
+
+        <IconButton onClick={swapInputs}>
+          <CachedIcon sx={{ opacity: 0.7 }} />
+        </IconButton>
       </Stack>
 
       {ratio ? (

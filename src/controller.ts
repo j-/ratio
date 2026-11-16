@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useReducer, type Reducer } from 'react';
 import {
-    gcd,
+  gcd,
   getAFromBWithRatio,
   getBFromAWithRatio,
   simplifyRatio,
@@ -28,9 +28,11 @@ export const initialState: ReducerState = {
 };
 
 export type ReducerAction =
-  { type: 'setInputA', value: string } |
-  { type: 'setInputB', value: string } |
-  { type: 'setLocked', value: boolean };
+  | { type: 'setInputA', value: string }
+  | { type: 'setInputB', value: string }
+  | { type: 'setLocked', value: boolean }
+  | { type: 'swapInputs' }
+  ;
 
 const isValid = (value: number) => (
   !isNaN(value) &&
@@ -153,6 +155,17 @@ export const reducer: Reducer<ReducerState, ReducerAction> = (state, action) => 
       }
     }
 
+    case 'swapInputs': {
+      return {
+        ...state,
+        inputA: state.inputB,
+        inputB: state.inputA,
+        numA: state.numB,
+        numB: state.numA,
+        ratio: state.ratio ? [state.ratio[1], state.ratio[0]] : state.ratio,
+      };
+    }
+
     default: return state;
   }
 };
@@ -189,6 +202,12 @@ export const useController = () => {
     });
   }, []);
 
+  const swapInputs = useCallback(() => {
+    dispatch({
+      type: 'swapInputs',
+    });
+  }, []);
+
   return useMemo(() => ({
     inputA,
     inputB,
@@ -200,6 +219,7 @@ export const useController = () => {
     setInputA,
     setInputB,
     setLocked,
+    swapInputs,
   }), [
     inputA,
     inputB,
@@ -211,5 +231,6 @@ export const useController = () => {
     setInputA,
     setInputB,
     setLocked,
+    swapInputs,
   ]);
 };

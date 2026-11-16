@@ -28,7 +28,12 @@ const integerScale = (...nums: number[]): number => {
   return 10 ** k;
 };
 
-export const simplifyRatio = (a: number, b: number): [number, number] => {
+export type Ratio = [
+  numerator: number,
+  denominator: number,
+];
+
+export const simplifyRatio = (a: number, b: number): Ratio => {
   const mult = integerScale(a, b);
   const aInt = Math.round(a * mult);
   const bInt = Math.round(b * mult);
@@ -36,3 +41,11 @@ export const simplifyRatio = (a: number, b: number): [number, number] => {
 
   return [aInt / d, bInt / d];
 };
+
+export const getAFromBWithRatio = (b: number, [n, d]: Ratio) => b * n / d;
+export const getBFromAWithRatio = (a: number, [n, d]: Ratio) => a * d / n;
+
+export const getProportionWithRatio = ([n, d]: Ratio): Ratio => [
+  n / (n + d),
+  d / (n + d),
+] as const;

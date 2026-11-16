@@ -1,173 +1,109 @@
+import type { FC } from 'react';
+import Lock from '@mui/icons-material/Lock';
+import LockOpen from '@mui/icons-material/LockOpen';
 import Box from '@mui/material/Box';
-import { inputBaseClasses } from '@mui/material/InputBase';
+import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
-import { alpha } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useReducer, type FC } from 'react';
-import { actions, initialState, reducer } from './reducer';
+import { RatioDisplay } from './RatioDisplay';
+import { CHAR_RATIO } from './constants';
+import { useController } from './controller';
+import {
+  getAFromBWithRatio,
+  getBFromAWithRatio,
+  getProportionWithRatio,
+} from './utils';
 
-const display = (n: number | null): string => n !== null ? String(n) : '';
+const percentage = new Intl.NumberFormat(undefined, {
+  style: 'percent',
+});
 
 export const App: FC = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
   const {
-    srcA,
-    srcB,
-    fixedA,
-    fixedB,
-    simpleA,
-    simpleB,
-    fracA,
-    fracB,
-    calculatedB,
-    calculatedA,
-  } = state;
+    inputA,
+    inputB,
+    locked,
+    setInputA,
+    setInputB,
+    setLocked,
+    ratio,
+  } = useController();
 
   return (
-    <Stack spacing={4} sx={(theme) => ({
-      p: 4,
-      [`& .${inputBaseClasses.readOnly}`]: {
-        backgroundColor: alpha(theme.palette.primary.main, 0.1),
-        cursor: 'default',
-      },
-    })}>
-      <Typography component="h1" variant="h4">Ratio calculator</Typography>
-
-      <Box component="fieldset" sx={{ border: 'none', p: 0, pt: 2 }}>
-        <Typography component="legend">Source</Typography>
-
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{
-            alignItems: 'center',
-            width: '30ch',
+    <Stack spacing={4} sx={{ p: 4 }}>
+      <Stack direction="row" spacing={1} sx={{ alignItems: 'center', width: '30ch' }}>
+        <TextField
+          label="A"
+          type="number"
+          value={inputA}
+          onChange={(e) => setInputA(e.target.value)}
+          fullWidth
+          slotProps={{
+            input: {
+              sx: {
+                color: (theme) => theme.palette.primary.main,
+              },
+            },
           }}
-        >
-          <TextField
-            label="A"
-            value={srcA}
-            onChange={(e) => dispatch(actions.setSrcA(e.target.value))}
-            fullWidth
-          />
-          <Typography>:</Typography>
-          <TextField
-            label="B"
-            value={srcB}
-            onChange={(e) => dispatch(actions.setSrcB(e.target.value))}
-            fullWidth
-          />
-        </Stack>
-      </Box>
-
-      <Box component="fieldset" sx={{ border: 'none', p: 0, pt: 2 }}>
-        <Typography component="legend">Simplified</Typography>
-
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{
-            alignItems: 'center',
-            width: '30ch',
+        />
+        <Typography variant="h5">
+          {CHAR_RATIO}
+        </Typography>
+        <TextField
+          label="B"
+          type="number"
+          value={inputB}
+          onChange={(e) => setInputB(e.target.value)}
+          fullWidth
+          slotProps={{
+            input: {
+              sx: {
+                color: (theme) => theme.palette.secondary.main,
+              },
+            },
           }}
-        >
-          <TextField
-            label="A"
-            value={display(simpleA)}
-            slotProps={{ input: { readOnly: true } }}
-            fullWidth
-          />
-          <Typography>:</Typography>
-          <TextField
-            label="B"
-            value={display(simpleB)}
-            slotProps={{ input: { readOnly: true } }}
-            fullWidth
-          />
-        </Stack>
-      </Box>
+        />
+      </Stack>
 
-      <Box component="fieldset" sx={{ border: 'none', p: 0, pt: 2 }}>
-        <Typography component="legend">Simplified (fractional)</Typography>
+      <Stack direction="row">
+        <Box component="output" sx={{
+          p: 1,
+          display: 'grid',
+          placeItems: 'center',
+        }}>
+          {ratio ? (
+            <RatioDisplay ratio={ratio} />
+          ) : (
+            <span>N/A</span>
+          )}
+        </Box>
 
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{
-            alignItems: 'center',
-            width: '30ch',
-          }}
-        >
-          <TextField
-            label="A"
-            value={display(fracA)}
-            slotProps={{ input: { readOnly: true } }}
-            fullWidth
-          />
-          <Typography>:</Typography>
-          <TextField
-            label="B"
-            value={display(fracB)}
-            slotProps={{ input: { readOnly: true } }}
-            fullWidth
-          />
-        </Stack>
-      </Box>
+        <Checkbox
+          checked={locked}
+          onChange={(_, checked) => setLocked(checked)}
+          icon={<LockOpen />}
+          checkedIcon={<Lock />}
+          disabled={ratio == null}
+        />
+      </Stack>
 
-      <Box component="fieldset" sx={{ border: 'none', p: 0, pt: 2 }}>
-        <Typography component="legend">Find B from A</Typography>
-
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{
-            alignItems: 'center',
-            width: '30ch',
-          }}
-        >
-          <TextField
-            label="A (input)"
-            value={fixedA}
-            onChange={(e) => dispatch(actions.setFixedA(e.target.value))}
-            fullWidth
-          />
-          <Typography>:</Typography>
-          <TextField
-            label="B (output)"
-            value={display(calculatedB)}
-            slotProps={{ input: { readOnly: true } }}
-            fullWidth
-          />
-        </Stack>
-      </Box>
-
-      <Box component="fieldset" sx={{ border: 'none', p: 0, pt: 2 }}>
-        <Typography component="legend">Find A from B</Typography>
-
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{
-            alignItems: 'center',
-            width: '30ch',
-          }}
-        >
-          <TextField
-            label="A (output)"
-            value={display(calculatedA)}
-            slotProps={{ input: { readOnly: true } }}
-            fullWidth
-          />
-          <Typography>:</Typography>
-          <TextField
-            label="B (input)"
-            value={fixedB}
-            onChange={(e) => dispatch(actions.setFixedB(e.target.value))}
-            fullWidth
-          />
-        </Stack>
-      </Box>
+      {ratio ? (
+        <ul>
+          <li>
+            <RatioDisplay ratio={[1, getBFromAWithRatio(1, ratio)]} />
+          </li>
+          <li>
+            <RatioDisplay ratio={[getAFromBWithRatio(1, ratio), 1]} />
+          </li>
+          {/* <li>
+            <RatioDisplay ratio={getProportionWithRatio(ratio)} />
+          </li> */}
+          <li>
+            <RatioDisplay ratio={getProportionWithRatio(ratio)} formatter={percentage} />
+          </li>
+        </ul>
+      ) : null}
     </Stack>
   );
 };

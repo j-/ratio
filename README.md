@@ -1,7 +1,7 @@
-[Ratio calculator][0]
-=====================
+[Ratio calculator][site]
+========================
 
-[0] https://skeoh.com/ratio
+[site]: https://skeoh.com/ratio
 
 To do
 -----
